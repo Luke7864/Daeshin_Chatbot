@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import requests
 import datetime
+import base64
 
 d=datetime.date.today()
 year=str(d.year)
@@ -36,11 +38,21 @@ today=date+8
 meal=tds[today].text
 
 if meal=="" or meal==" ":
-	txt="오늘은 급식이 없습니다."
-	f=open("dinner.txt",'w')
-	f.write(txt)
+	txt='오늘은 석식이 없습니다.'
+	f=open("/var/www/html/python/dinner.txt",'w')
+	encoded=txt.encode('utf-8')
+	bs64=str(base64.b64encode(encoded))
+	realdata=bs64.replace("b","",1)
+	realdata=realdata.replace("'","",2)
+	f.write(realdata)
 	f.close()
 else:
-	f=open("dinner.txt",'w')
-	f.write(meal)
+	f=open("/var/www/html/python/dinner.txt",'w')
+	encoded=meal.encode('utf-8')
+	bs64=str(base64.b64encode(encoded))
+	realdata=bs64.replace("b","",1)
+	realdata=realdata.replace("'","",2)
+	f.write(realdata)
 	f.close()
+print('ok')
+
